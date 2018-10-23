@@ -1,0 +1,29 @@
+
+
+
+Usuarios(nombre='larry@activak.com',password='Helloglob01234!').save()
+Usuarios(nombre='claudia@activak.com',password='Helloglob01234!').save()
+Usuarios(nombre='angelica@activak.com',password='Helloglob01234!').save()
+Usuarios(nombre='ssalinas@activak.com',password='Helloglob01234!').save()
+Usuarios(nombre='clara@activak.com',password='Helloglob01234!').save()
+Usuarios(nombre='esteban@activak.com',password='Helloglob01234!').save()
+Usuarios(nombre='mariana@activak.com',password='Helloglob01234!').save()
+Usuarios(nombre='brenda@activak.com',password='Helloglob01234!').save()
+Usuarios(nombre='abarron@activak.com',password='Helloglob01234!').save()
+Usuarios(nombre='dirck@activak.com',password='Helloglob01234!').save()
+Usuarios(nombre='sofia@activak.com',password='Helloglob01234!').save()
+Usuarios(nombre='Jhymmy@activak.com',password='Helloglob01234!').save()
+Usuarios(nombre='mescandon@activak.com',password='Helloglob01234!').save()
+Usuarios(nombre='Hparodi@activak.com',password='Helloglob01234!').save()
+Usuarios(nombre='Ksandoval@activak.com',password='Helloglob01234!').save()
+Usuarios(nombre='svieira@activak.com',password='Helloglob01234!').save()
+Usuarios(nombre='playnes@activak.com',password='Helloglob01234!').save()
+
+
+
+Historial.objects.all().delete()
+
+
+u = Usuarios.objects.all()
+for _u in u:
+	HistorialGlobo(usuario_id=_u.id,estado_id=1).save()
