@@ -14,20 +14,10 @@ import json
 import requests
 from django.contrib.admin.filters import DateFieldListFilter
 
-@admin.register(Usuarios)
-class UsuariosGloboAdmin(admin.ModelAdmin):
-    list_display = ('id','nombre')
-
-@admin.register(Estado)
-class EstadoGloboAdmin(admin.ModelAdmin):
+@admin.register(Color)
+class ColorGloboAdmin(admin.ModelAdmin):
     list_display = ('id','nombre')
 
 
-
-
-@admin.register(HistorialGlobo)
-class HistorialGloboAdmin(admin.ModelAdmin):
-    list_display = ('id','usuario','estado','fecha_inicio','fecha_fin')
-    list_filter=('usuario',)
 
 

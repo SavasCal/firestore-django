@@ -6,6 +6,59 @@ import datetime
 # Create your models here.
 
 
+class Color(models.Model):
+    nombre = models.CharField(max_length=1000, blank=True, null=True)
+
+    class Meta:
+        managed = True
+        db_table = 'color'
+
+
+class Local(models.Model):
+    nombre = models.CharField(max_length=1000, blank=True, null=True)
+
+    class Meta:
+        managed = True
+        db_table = 'local'
+
+class Proveedor(models.Model):
+    nombre = models.CharField(max_length=1000, blank=True, null=True)
+
+    class Meta:
+        managed = True
+        db_table = 'proveedor'
+
+
+class Modelo(models.Model):
+    nombre = models.CharField(max_length=1000, blank=True, null=True)
+
+    class Meta:
+        managed = True
+        db_table = 'modelo'
+
+
+class Movimiento(models.Model):
+    local = models.ForeignKey('Local', models.DO_NOTHING, db_column='local', blank=True, null=True)
+    modelo = models.ForeignKey('Modelo', models.DO_NOTHING, db_column='modelo', blank=True, null=True)
+    talla = models.ForeignKey('Talla', models.DO_NOTHING, db_column='talla', blank=True, null=True)
+    color = models.ForeignKey('Color', models.DO_NOTHING, db_column='color', blank=True, null=True)
+    proveedor = models.ForeignKey('Proveedor', models.DO_NOTHING, db_column='proveedor', blank=True, null=True)
+    cantidad = models.IntegerField(blank=True, null=True)
+    tipo = models.CharField(max_length=1000, blank=True, null=True)
+    fecha = models.CharField(max_length=1000, blank=True, null=True)
+
+    class Meta:
+        managed = True
+        db_table = 'movimiento'
+
+
+class Talla(models.Model):
+    nombre = models.CharField(max_length=1000, blank=True, null=True)
+
+    class Meta:
+        managed = True
+        db_table = 'talla'
+
 class Estado(models.Model):
     nombre = models.CharField(max_length=1000)
 
