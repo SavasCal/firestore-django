@@ -45,9 +45,17 @@ def guardafirebase(fecha,color,s,modelo,origen,destino,talla):
 
     }
 
+    guarda=0
 
+    if (s=='0' or s=='-' or color=='TOTAL'):
 
-    doc.set(data)
+        guarda=1
+
+        print('Ingrese...',s,color)
+
+    if guarda==0:
+    
+        doc.set(data)
 
     return 'oK'
 
@@ -74,6 +82,8 @@ def leesheet(SPREADSHEET_ID,RANGE_NAME):
 
             print(values[m])
 
+
+
             
             guardafirebase(u'20-10-2018',values[m][0],values[m][1],u'LAZO','Inicial',u'ALMACEN',u'S')
             guardafirebase(u'20-10-2018',values[m][0],values[m][2],u'LAZO','Inicial',u'ALMACEN',u'M')
@@ -99,15 +109,15 @@ def main():
 
     # Call the Sheets API
     SPREADSHEET_ID = '1o5931JEbZ3Buq0smb-QJA11Fs--SySlLaaoTa9GP9a4'
-    RANGE_NAME = 'IBHET!A2:J18'
+    RANGE_NAME = 'IBHET!A3:J19'
 
-    hojas=[u'LAZO',u'IBHET',u'Isabella gasa',u'ISABELA',u'THAYSA',u'LETICIA',u'IBhet corto',u'tabitah',u'TRAPECIO',u'ESTER V',u'Isabella corto',u'PAMELA',u'IRINA']
+    hojas=[u'LAZO',u'IBHET',u'Isabella gasa',u'ISABELA',u'THAYSA',u'LETICIA',u'IBhet corto',u'tabitah',u'TRAPECIO',u'ESTER V',u'Isabella corto',u'PAMELA',u'IRINA','angela']
 
     for h in hojas:
 
         print(h)
 
-        leesheet(SPREADSHEET_ID,h+'!'+'A2:J18')
+        leesheet(SPREADSHEET_ID,h+'!'+'A3:J19')
 
 if __name__ == '__main__':
     main()
