@@ -38,11 +38,11 @@ class Modelo(models.Model):
 
 
 class Movimiento(models.Model):
-    local = models.ForeignKey('Local', models.DO_NOTHING, db_column='local', blank=True, null=True)
+    origen = models.ForeignKey('Local', models.DO_NOTHING, db_column='origen',related_name='origen', blank=True, null=True)
+    destino = models.ForeignKey('Local', models.DO_NOTHING, db_column='destino',related_name='destino', blank=True, null=True)
     modelo = models.ForeignKey('Modelo', models.DO_NOTHING, db_column='modelo', blank=True, null=True)
     talla = models.ForeignKey('Talla', models.DO_NOTHING, db_column='talla', blank=True, null=True)
     color = models.ForeignKey('Color', models.DO_NOTHING, db_column='color', blank=True, null=True)
-    proveedor = models.ForeignKey('Proveedor', models.DO_NOTHING, db_column='proveedor', blank=True, null=True)
     cantidad = models.IntegerField(blank=True, null=True)
     tipo = models.CharField(max_length=1000, blank=True, null=True)
     fecha = models.CharField(max_length=1000, blank=True, null=True)

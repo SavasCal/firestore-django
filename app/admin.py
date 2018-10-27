@@ -18,6 +18,19 @@ from django.contrib.admin.filters import DateFieldListFilter
 class ColorGloboAdmin(admin.ModelAdmin):
     list_display = ('id','nombre')
 
+@admin.register(Talla)
+class TallaGloboAdmin(admin.ModelAdmin):
+    list_display = ('id','nombre')
+
+@admin.register(Movimiento)
+class MovimientoGloboAdmin(admin.ModelAdmin):
+    list_display = ('id','origen')
+
+@admin.register(Local)
+class LocalGloboAdmin(admin.ModelAdmin):
+    list_display = ('id','nombre')
 
 
-
+@admin.register(Modelo)
+class ModeloGloboAdmin(admin.ModelAdmin):
+    list_display = ('id','nombre')

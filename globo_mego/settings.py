@@ -78,7 +78,7 @@ WSGI_APPLICATION = 'globo_mego.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.ania'),
+        'NAME': os.path.join(BASE_DIR, 'db.ania2'),
     }
 }
 

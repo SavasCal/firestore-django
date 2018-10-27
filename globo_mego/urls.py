@@ -25,4 +25,5 @@ urlpatterns = [
     url(r'^guarda/$', guarda),
     url(r'^listausuarios/$', listausuarios),
     url(r'^listaglobo/$', listaglobo),
+    url(r'^guarda/$', guarda),
 ]

@@ -61,7 +61,7 @@ def guardafirebase(fecha,color,s,modelo,origen,destino,talla):
 
 
 
-def leesheet(SPREADSHEET_ID,RANGE_NAME):
+def leesheet(SPREADSHEET_ID,RANGE_NAME,modelo):
 
     store = file.Storage('token.json')
     creds = store.get()
@@ -82,18 +82,15 @@ def leesheet(SPREADSHEET_ID,RANGE_NAME):
 
             print(values[m])
 
-
-
-            
-            guardafirebase(u'20-10-2018',values[m][0],values[m][1],u'LAZO','Inicial',u'ALMACEN',u'S')
-            guardafirebase(u'20-10-2018',values[m][0],values[m][2],u'LAZO','Inicial',u'ALMACEN',u'M')
-            guardafirebase(u'20-10-2018',values[m][0],values[m][3],u'LAZO','Inicial',u'ALMACEN',u'L')
-            guardafirebase(u'20-10-2018',values[m][0],values[m][4],u'LAZO','Inicial',u'TORRE',u'S')
-            guardafirebase(u'20-10-2018',values[m][0],values[m][5],u'LAZO','Inicial',u'TORRE',u'M')
-            guardafirebase(u'20-10-2018',values[m][0],values[m][6],u'LAZO','Inicial',u'TORRE',u'L')
-            guardafirebase(u'20-10-2018',values[m][0],values[m][7],u'LAZO','Inicial',u'CANEPA',u'S')
-            guardafirebase(u'20-10-2018',values[m][0],values[m][8],u'LAZO','Inicial',u'CANEPA',u'M')
-            guardafirebase(u'20-10-2018',values[m][0],values[m][9],u'LAZO','Inicial',u'CANEPA',u'L')
+            guardafirebase(u'20-10-2018',values[m][0],values[m][1],modelo,'Inicial',u'ALMACEN',u'S')
+            guardafirebase(u'20-10-2018',values[m][0],values[m][2],modelo,'Inicial',u'ALMACEN',u'M')
+            guardafirebase(u'20-10-2018',values[m][0],values[m][3],modelo,'Inicial',u'ALMACEN',u'L')
+            guardafirebase(u'20-10-2018',values[m][0],values[m][4],modelo,'Inicial',u'TORRE',u'S')
+            guardafirebase(u'20-10-2018',values[m][0],values[m][5],modelo,'Inicial',u'TORRE',u'M')
+            guardafirebase(u'20-10-2018',values[m][0],values[m][6],modelo,'Inicial',u'TORRE',u'L')
+            guardafirebase(u'20-10-2018',values[m][0],values[m][7],modelo,'Inicial',u'CANEPA',u'S')
+            guardafirebase(u'20-10-2018',values[m][0],values[m][8],modelo,'Inicial',u'CANEPA',u'M')
+            guardafirebase(u'20-10-2018',values[m][0],values[m][9],modelo,'Inicial',u'CANEPA',u'L')
 
 
 def main():
@@ -111,13 +108,13 @@ def main():
     SPREADSHEET_ID = '1o5931JEbZ3Buq0smb-QJA11Fs--SySlLaaoTa9GP9a4'
     RANGE_NAME = 'IBHET!A3:J19'
 
-    hojas=[u'LAZO',u'IBHET',u'Isabella gasa',u'ISABELA',u'THAYSA',u'LETICIA',u'IBhet corto',u'tabitah',u'TRAPECIO',u'ESTER V',u'Isabella corto',u'PAMELA',u'IRINA','angela']
+    hojas=[u'LAZO',u'IBHET',u'Isabella gasa',u'ISABELA',u'THAYSA',u'LETICIA',u'IBhet corto',u'tabitah',u'TRAPECIO',u'ESTER V',u'Isabella corto',u'PAMELA',u'IRINA','angela',u'VERONICA']
 
     for h in hojas:
 
         print(h)
 
-        leesheet(SPREADSHEET_ID,h+'!'+'A3:J19')
+        leesheet(SPREADSHEET_ID,h+'!'+'A3:J19',h)
 
 if __name__ == '__main__':
     main()
