@@ -13,6 +13,9 @@ class Color(models.Model):
         managed = True
         db_table = 'color'
 
+    def __unicode__(self):
+        return self.nombre
+
 
 class Local(models.Model):
     nombre = models.CharField(max_length=1000, blank=True, null=True)
@@ -21,12 +24,18 @@ class Local(models.Model):
         managed = True
         db_table = 'local'
 
+    def __unicode__(self):
+        return self.nombre
+
 class Proveedor(models.Model):
     nombre = models.CharField(max_length=1000, blank=True, null=True)
 
     class Meta:
         managed = True
         db_table = 'proveedor'
+
+    def __unicode__(self):
+        return self.nombre
 
 
 class Modelo(models.Model):
@@ -36,14 +45,17 @@ class Modelo(models.Model):
         managed = True
         db_table = 'modelo'
 
+    def __unicode__(self):
+        return self.nombre
+
 
 class Movimiento(models.Model):
     origen = models.ForeignKey('Local', models.DO_NOTHING, db_column='origen',related_name='origen', blank=True, null=True)
-    destino = models.ForeignKey('Local', models.DO_NOTHING, db_column='destino',related_name='destino', blank=True, null=True)
-    modelo = models.ForeignKey('Modelo', models.DO_NOTHING, db_column='modelo', blank=True, null=True)
+    destino = models.ForeignKey('Local', models.DO_NOTHING, db_column='destino', blank=True, null=True,related_name='movimiento')
+    modelo = models.ForeignKey('Modelo', models.DO_NOTHING, db_column='modelo', blank=True, null=True,related_name='modelo')
     talla = models.ForeignKey('Talla', models.DO_NOTHING, db_column='talla', blank=True, null=True)
     color = models.ForeignKey('Color', models.DO_NOTHING, db_column='color', blank=True, null=True)
-    cantidad = models.IntegerField(blank=True, null=True)
+    cantidad = models.CharField(max_length=1000, blank=True, null=True)
     tipo = models.CharField(max_length=1000, blank=True, null=True)
     fecha = models.CharField(max_length=1000, blank=True, null=True)
 
@@ -58,6 +70,9 @@ class Talla(models.Model):
     class Meta:
         managed = True
         db_table = 'talla'
+
+    def __unicode__(self):
+        return self.nombre
 
 class Estado(models.Model):
     nombre = models.CharField(max_length=1000)

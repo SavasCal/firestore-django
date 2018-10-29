@@ -10,13 +10,21 @@ from firebase_admin import credentials,firestore
 import string
 import random
 import datetime as dt
-
-
+from django.db.models import Max,Count,Sum
+import simplejson
 # Create your views here.
 
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from django.template.defaultfilters import slugify
+
+def ValuesQuerySetToDict(vqs):
+
+	return [item for item in vqs]
+
+def id_generator(size=6, chars=string.ascii_uppercase + string.digits):
+    return ''.join(random.choice(chars) for _ in range(size))
+
 
 
 @receiver(pre_save)
@@ -27,13 +35,13 @@ def my_callback(sender, instance, *args, **kwargs):
 
 def guarda(request):
 
-	# cred = credentials.Certificate("clave.json")
+	cred = credentials.Certificate("clave.json")
 
-	# firebase_admin.initialize_app(cred, {
-	#     'databaseURL' : 'https://gamarra-e89b4.firebaseio.com'
-	# })
+	firebase_admin.initialize_app(cred, {
+	    'databaseURL' : 'https://gamarra-e89b4.firebaseio.com'
+	})
 
-	# db=firestore.client()
+	db=firestore.client()
 
 	# loc = db.collection(u'locales').get()
 
@@ -70,25 +78,20 @@ def guarda(request):
 
 	# 	Color(nombre=loca).save()
 
-	loc = db.collection(u'colores').get()
+	productos_local = db.collection(u'modelos_historico').document('20-10-2018').collection('modelos').get()
 
-	for lo in loc:
-
-		loca = lo.to_dict()['nombre']
-
-		Color(nombre=loca).save()
-
-
+	for lo in productos_local:
 	
+		colore=lo.to_dict()['movimiento']['color']
+
+
 
 	return HttpResponse('data', content_type="application/json")
 
 
 def listausuarios(request):
 
-
 	cred = credentials.Certificate("clave.json")
-
 	firebase_admin.initialize_app(cred, {
 	    'databaseURL' : 'https://gamarra-e89b4.firebaseio.com'
 	})
@@ -136,19 +139,49 @@ def listausuarios(request):
 			talla=Talla.objects.get(nombre__iexact=talla).id
 			modelo=Modelo.objects.get(nombre__iexact=modelo).id
 
-
 			Movimiento(color_id=_color,origen_id=origen,destino_id=destino,talla_id=talla,modelo_id=modelo,cantidad=cantidad).save()
 
 			print(_color,origen,destino,talla,modelo,cantidad)
 
+	return JsonResponse('ok')
+
+def agregatotalesfirebase(request):
+
+	fecha=str(datetime.date.today())
+
+	cred = credentials.Certificate("clave.json")
+
+	firebase_admin.initialize_app(cred, {
+	    'databaseURL' : 'https://gamarra-e89b4.firebaseio.com'
+	})
+
+	db=firestore.client()
 
 
+	mo = Modelo.objects.filter().values('id','nombre')
+
+	for m in range(len(mo)):
+
+		x= Movimiento.objects.filter(modelo_id=mo[m]['id']).values('destino__nombre','modelo__nombre','color__nombre','talla__nombre').annotate(total=Sum('cantidad')).order_by('destino__nombre')
+
+		for y in range(len(x)):
+
+			_id=id_generator()+str(fecha)
+
+			data={
+				u'cantidad':x[y]['total'],
+				u'color':x[y]['color__nombre'],
+				u'modelo':x[y]['modelo__nombre'],
+				u'destino':x[y]['destino__nombre'],
+				u'talla':x[y]['talla__nombre']
+			}
+
+			doca= db.collection(u'totales').document(_id+fecha)
+
+			doca.set(data)
 
 
-	_usuarios = Usuarios.objects.all()
-	serializer =  UsuariosSerializer(_usuarios,many=True)
-	return JsonResponse(serializer.data, safe=False)
-
+	return JsonResponse('ok', safe=False)
 
 
 def listaglobo(request):
@@ -160,3 +193,76 @@ def listaglobo(request):
 
 
 
+def locales(request):
+
+    serializer = LocalSerializer(Local.objects.all(), many=True)
+    return JsonResponse(serializer.data, safe=False)
+
+@csrf_exempt
+def movimientos(request,local,modelo):
+
+	# cred = credentials.Certificate("clave.json")
+
+	# firebase_admin.initialize_app(cred, {
+	#     'databaseURL' : 'https://gamarra-e89b4.firebaseio.com'
+	# })
+
+	# db=firestore.client()
+
+	fecha=str(datetime.date.today())
+
+	x= Movimiento.objects.filter(modelo__nombre__iexact=modelo,destino__nombre__iexact=local).values('color__nombre').annotate(total=Sum('cantidad')).order_by('destino__nombre',)
+
+
+	for t in range(len(x)):
+
+		x[t]['S']= Movimiento.objects.filter(modelo__nombre__iexact=modelo,destino__nombre__iexact=local,color__nombre=x[t]['color__nombre'],talla__nombre='S').count()
+		x[t]['M']=Movimiento.objects.filter(modelo__nombre__iexact=modelo,destino__nombre__iexact=local,color__nombre=x[t]['color__nombre'],talla__nombre='M').count()
+		x[t]['L']=Movimiento.objects.filter(modelo__nombre__iexact=modelo,destino__nombre__iexact=local,color__nombre=x[t]['color__nombre'],talla__nombre='L').count()
+		
+		print x[t]['S'],x[t]['M'],x[t]['L']
+
+		x[t]['total']=x[t]['S']+x[t]['M']+x[t]['L']
+
+	a= simplejson.dumps(ValuesQuerySetToDict(x))
+
+	return HttpResponse(a, content_type="application/json")
+
+			# for _co in range(len(x)):
+
+			# 	data={
+			# 		u'total':x[_co]['total'],
+			# 		u'talla':x[_co]['talla__nombre'],
+			# 	}
+
+			# 	_id=id_generator()+str(fecha)
+
+			# 	doca= db.collection(u'totales').document(mo[m]['nombre'])
+
+			# 	doca.set({u'nombre':mo[m]['nombre']})
+
+			# 	doca= db.collection(u'totales').document(mo[m]['nombre'])
+
+			# 	doca.set({u'nombre':mo[m]['nombre']})
+				
+			# 	#.collection(co[c]['nombre']).document()
+
+			# 	doca.set(data)
+
+				
+
+				#collection(co[c]['nombre']).document()
+
+				#doca.set(data)
+
+
+
+		
+
+		
+
+
+	
+	a= simplejson.dumps(ValuesQuerySetToDict(mo))
+
+	return HttpResponse(a, content_type="application/json")

@@ -18,7 +18,7 @@ from django.contrib import admin
 from app.views import *
 
 
-admin.site.site_header = 'Globo Mego'
+admin.site.site_header = 'Ania'
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -26,4 +26,10 @@ urlpatterns = [
     url(r'^listausuarios/$', listausuarios),
     url(r'^listaglobo/$', listaglobo),
     url(r'^guarda/$', guarda),
+    url(r'^locales/$', locales),
+    url(r'^movimientos/([\w ]+)/([\w ]+)$', movimientos),
+    url(r'^agregatotalesfirebase/$', agregatotalesfirebase),
 ]
+
+
+

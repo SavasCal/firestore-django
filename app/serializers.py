@@ -3,17 +3,27 @@ from app.models import *
 from rest_framework import serializers
 
 
-class UsuariosSerializer(serializers.ModelSerializer):
+
+class ModeloSerializer(serializers.ModelSerializer):
 
 	class Meta:
-		model = Usuarios
-		#fields = ('id', 'nombre','tipo_agente')
+		model = Modelo
 		fields = '__all__'
 
 
-class HistorialGloboSerializer(serializers.ModelSerializer):
+class MovimientoSerializer(serializers.ModelSerializer):
 
 	class Meta:
-		model = HistorialGlobo
-		#fields = ('id', 'nombre','tipo_agente')
+		model = Movimiento
 		fields = '__all__'
+
+
+class LocalSerializer(serializers.ModelSerializer):
+
+	
+
+	class Meta:
+		model = Local
+		fields = '__all__'
+
+

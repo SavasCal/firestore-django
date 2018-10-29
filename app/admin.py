@@ -24,7 +24,8 @@ class TallaGloboAdmin(admin.ModelAdmin):
 
 @admin.register(Movimiento)
 class MovimientoGloboAdmin(admin.ModelAdmin):
-    list_display = ('id','origen')
+    list_display = ('id','modelo','destino','color','cantidad','talla')
+    list_filter=('destino','color','modelo','talla')
 
 @admin.register(Local)
 class LocalGloboAdmin(admin.ModelAdmin):
